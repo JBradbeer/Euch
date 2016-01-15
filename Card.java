@@ -9,7 +9,7 @@ public class Card {
         this.rank = rank;
         this.suit = suit;
     }
-
+// d
     public static String getRank(Card thisCard) {
         return thisCard.rank;
     }

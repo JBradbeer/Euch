@@ -19,7 +19,7 @@ public class Deck {
             }}
         return deck;
     }
-
+ //d
     public static ArrayList<Card> shuffleDeck (ArrayList<Card> deck){
         ArrayList<Card> hand = new ArrayList<Card>();
 
