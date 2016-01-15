@@ -2,6 +2,9 @@ package com.example.jakebradbeer.euchure;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,48 +17,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startGame();
 
-        String[] suits = {"Spadess", "Hearts", "Diamonds", "Clubs"};
-        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+        Button btn[] = new Button[5];
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout1);
 
-        List<Card> deck = new ArrayList<Card>();
+        TableLayout layout = new TableLayout (this);
+        layout.setLayoutParams( new TableLayout.LayoutParams(4,5) );
 
-        for (int s = 0; s < suits.length; s++) {
-            for (int r = 0; r < ranks.length; r++) {
-                Card c = new Card(suits[s], ranks[r]);
-                deck.add(c);
-            }
-        }
+        layout.setPadding(1,1,1,1);
+
+        for (int f=0; f<=13; f++) {
+            TableRow tr = new TableRow(this);
+            for (int c=0; c<=9; c++) {
+                Button b = new Button (this);
+                b.setText(""+f+c);
+                b.setTextSize(10.0f);
+                b.setTextColor(Color.rgb( 100, 200, 200));
+                b.setOnClickListener(this);
+                tr.addView(b, 30,30);
+            } // for
+            layout.addView(tr);
+        } // for
+
+        super.setContentView(layout);
     }
 
-    public ArrayList<Card> Shuffle (ArrayList<Card> deck){
-        ArrayList<Card> hand = new ArrayList<Card>();
-
-        long seed = System.nanoTime();
-        Collections.shuffle(deck, new Random(seed));
-
-        return deck;
+    public void onClick(View view) {
+        ((Button) view).setText("*");
+        ((Button) view).setEnabled(false);
     }
 
-    // Requires a shuffled deck
-    public ArrayList<Card> Deal (ArrayList<Card> deck){
-        ArrayList<Card> hand = new ArrayList<Card>();
+       // for (int i = 0; i < 5; i++) {
+        //    btn[i] = new Button(this); // initialize it
+        //    btn[i].setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        //    btn[i].setOnClickListener(this);
+        //    layout.addView(btn[i]);
+     //   }
 
-        for (int x = 0; x < 5; x++)  {
-            hand.add(deck.get(0));
-            deck.remove(0);
+    public void startGame(){
+        ArrayList<Card> deck = Deck.createDeck();
+        deck = Deck.shuffleDeck(deck);
+
+        ArrayList<ArrayList<Card>> hands = new ArrayList<ArrayList<Card>>(4);
+
+        for (int i=0; i<4; i++){
+            hands.set(i, Deck.deal(deck));
         }
 
-        return hand;
-    }
 
-    public void handDisplay (ArrayList<Card> hand){
-        String suit; String rank;
-
-        for (int h = 0; h < hand.size(); h++) {
-            System.out.println(Card.getSuit(hand.get(h)));
-            System.out.println(Card.getRank(hand.get(h)));
-        }
     }
 
 }
