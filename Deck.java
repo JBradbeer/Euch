@@ -7,7 +7,7 @@ import java.util.Random;
 public class Deck {
 
     public static ArrayList<Card> createDeck(){
-        String[] suits = {"Spadess", "Hearts", "Diamonds", "Clubs"};
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
 
         ArrayList<Card> deck = new ArrayList<Card>();
