@@ -15,10 +15,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startGame();
+        int btnID[] = {R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
+        Button btn[] = new Button[5];
+
+        for (int i = 0; i<5; i++) {
+            btn[i] = (Button) findViewById(btnID[i]);
+            btn[i].setOnClickListener(Listener);
+        }
+
+        startGame(btn);
        }
 
-    public void startGame() {
+    public void startGame(Button[] btn) {
         ArrayList<Card> deck = Deck.createDeck();
         boolean handOver = false;
         Deck.shuffleDeck(deck);
@@ -29,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Card> handFour = Deck.dealHand(deck);   //TODO Make hands into an array list
 
         while (!handOver)
-            displayHand(handOne);
+            displayHand(handOne, btn);
     }
 
     private int randDealer(){
@@ -38,12 +46,7 @@ public class MainActivity extends AppCompatActivity {
         return rng.nextInt(4);
     }
 
-    private void displayHand(ArrayList<Card> hand) {
-        int btnID[] = {R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
-        Button btn[] = new Button[5];
-
-        for (int i = 0; i<5; i++)
-            btn[i] = (Button) findViewById(btnID[i]);
+    private void displayHand(ArrayList<Card> hand, Button[] btn) {
 
         for (int i = 0; i < 5; i++) {
             if (btn[i].isClickable())
@@ -57,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Button btn = (Button) findViewById(v.getId());
                 btn.setText(" ");
-                btn.setClickable(false);
             }
 
         };
